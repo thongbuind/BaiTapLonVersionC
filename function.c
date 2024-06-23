@@ -136,3 +136,212 @@ void tinh_nang_tra_cuu (product p[], int* count) {
     }
 }
 
+int tinh_toan (char name[][100], int quantity[], int index, int count, product p[]) {
+    int sum=0;
+    for (int i=0; i<index; i++){
+        for (int j=0; j<count; j++) {
+            if (strcmp(name[i], p[j].name) == 0) {
+                sum += p[j].price * quantity[i];
+            }
+        }
+    }
+    return sum;
+}
+void tinh_nang_tinh_toan (product p[], manage m[], int* index_manage, int* money_in, int* number_out, int* count, char name_staff_tmp[100]) {
+    int index;
+    int checkcheck;
+    char q[100];
+    // dùng vòng do while để nhập số lượng
+    do {
+        printf("   Nhap so luong mat hang can tinh: ");
+        scanf("%d", &index);
+        getchar();
+    } while (index <= 0);
+    // phải khai báo biến ở đây vì index vừa mới nhập
+    char name[index][100];
+    int quantity[index];
+    int check[index];
+    int ynq;
+    for (int i=0; i<index; i++) {
+        check[i] = 0;
+        // dùng vòng do while để nhập và check tên sp
+        do {
+            printf("   Nhap ten mat hang %d: ", i+1);
+            fgets(name[i], sizeof(name[i]), stdin);
+            name[i][strcspn(name[i], "\n")] = '\0';
+            for (int j=0; j<*count; j++) {
+                if (strcmp(name[i], p[j].name) == 0) {
+                    check[i] = 1;
+                }
+            }
+        } while (check[i] != 1);
+        // dùng vòng do while để nhập số lượng
+        do {
+            check[i] = 1;
+            printf("   Nhap so luong cua mat hang %d: ", i+1);
+            scanf("%d", &quantity[i]);
+            getchar();
+            // kiểm tra số lượng có đủ trong kho không
+            for (int j=0; j<*count; j++) {
+                if (strcmp(name[i], p[j].name) == 0) {
+                    if (quantity[i] > p[j].quantity) {
+                        check[i] = 0;
+                        printf("   ❌ So luong san pham khong du trong kho.\n");
+                    }
+                }
+            }
+        } while (quantity[i] <= 0 || check[i] == 0);
+    }
+    printf("   Thanh tien: %d VND\n", tinh_toan(name, quantity, index, *count, p));
+    // hỏi xem muốn xuất kho những sản phẩm trên không
+    do {
+        printf("   Ban muon xuat hoa don khong? ");
+        scanf("%s", q);
+        getchar();
+        yesno_question(q, &ynq);
+        if (ynq==1) {
+            for (int i=0; i<index; i++) {
+                xuat_kho(name[i], quantity[i], *count, p, &checkcheck, money_in, m, index_manage, name_staff_tmp, number_out);
+            }
+            printf("   ✅ Xuat kho thanh cong.\n");
+        } else if (ynq==3) {
+            printf("   ❌ Khong xac dinh duoc lenh.\n");
+        }
+    } while (ynq==3);
+}
+
+void tinh_nang_quan_ly(product p[], int count, manage m[], int *total_money, int *money_in, int *money_out, int *number_in, int *number_out, int *index_staff, char staff[][100]) {
+    // check xem nhân viên có được cấp quyền truy cập tính năng không
+    if (strcmp(staff[*index_staff - 1], "quanly") == 0) {
+        int option_6;
+        *total_money = *total_money + *money_in - *money_out;
+        menu_6(*total_money);
+        
+        do {
+            printf("   Chon thao tac: ");
+            scanf("%d", &option_6);
+            getchar();
+        } while (option_6 > 5 || option_6 < 1);
+        
+        switch (option_6) {
+            case 1: {
+                printf("       Tong tien chi ra: %d\n", *money_out);
+                printf("       Tong tien thu vao: %d\n", *money_in);
+                break;
+            }
+            case 2: {
+                printf("           Tong so nhan vien lam viec: %d\n", *index_staff);
+                printf("       |%2s|%-20s|\n", "STT", "TEN NHAN VIEN");
+                for (int i = 0; i<*index_staff; i++) {
+                    printf("       |%2d |%-20s|\n", i + 1, staff[i]);
+                }
+                break;
+            }
+            case 3: {
+                int stt = 1;
+                printf("       So lan xuat kho: %d\n", *number_out);
+                printf("       |STT|    TEN MAT HANG    |SO LUONG|   TEN NHAN VIEN    |\n");
+                for (int i = 0; i < (*number_out + *number_in); i++) {
+                    if (m[i].quantity < 0) {
+                        printf("       |%2d |%-20s|%-8d|%-20s|\n", stt++, m[i].name_product, -m[i].quantity, m[i].name_staff);
+                    }
+                }
+                break;
+            }
+            case 4: {
+                int stt = 1;
+                printf("       So lan nhap kho: %d\n", *number_in);
+                printf("       |STT|    TEN MAT HANG    |SO LUONG|   TEN NHAN VIEN    |\n");
+                for (int i = 0; i < (*number_out + *number_in); i++) {
+                    if (m[i].quantity > 0) {
+                        printf("       |%2d |%-20s|%-8d|%-20s|\n", stt++, m[i].name_product, m[i].quantity, m[i].name_staff);
+                    }
+                }
+                break;
+            }
+            case 5: { // Sắp xếp lại danh sách kho
+                int q;
+                printf("   Sap xep theo:\n");
+                printf("       1. Gia tien tang dan\n");
+                printf("       2. Gia tien giam dan\n");
+                printf("       3. So luong ton kho tang dan\n");
+                printf("       4. So luong ton kho giam dan\n");
+                printf("   Chon thao tac: ");
+                scanf("%d", &q);
+                getchar();
+                switch (q) {
+                    case 1: {
+                        for (int i = 0; i < count; i++) {
+                            int min_index = i;
+                            for (int j = i; j < count; j++) {
+                                if (p[j].price < p[min_index].price) {
+                                    min_index = j;
+                                }
+                            }
+                            struct product tmp = p[i];
+                            p[i] = p[min_index];
+                            p[min_index] = tmp;
+                        }
+                        printf("   ✅Sap xep thanh cong\n");
+                        break;
+                    }
+                    case 2: {
+                        for (int i = 0; i < count; i++) {
+                            int max_index = i;
+                            for (int j = i; j < count; j++) {
+                                if (p[j].price > p[max_index].price) {
+                                    max_index = j;
+                                }
+                            }
+                            struct product tmp = p[i];
+                            p[i] = p[max_index];
+                            p[max_index] = tmp;
+                        }
+                        printf("   ✅Sap xep thanh cong\n");
+                        break;
+                    }
+                    case 3: {
+                        for (int i = 0; i < count; i++) {
+                            int min_index = i;
+                            for (int j = i; j < count; j++) {
+                                if (p[j].quantity < p[min_index].quantity) {
+                                    min_index = j;
+                                }
+                            }
+                            struct product tmp = p[i];
+                            p[i] = p[min_index];
+                            p[min_index] = tmp;
+                        }
+                        printf("   ✅Sap xep thanh cong\n");
+                        break;
+                    }
+                    case 4: {
+                        for (int i = 0; i < count; i++) {
+                            int max_index = i;
+                            for (int j = i; j < count; j++) {
+                                if (p[j].quantity > p[max_index].quantity) {
+                                    max_index = j;
+                                }
+                            }
+                            struct product tmp = p[i];
+                            p[i] = p[max_index];
+                            p[max_index] = tmp;
+                        }
+                        printf("   ✅Sap xep thanh cong\n");
+                        break;
+                    }
+                    default:
+                        break;
+                }
+                break;
+            }
+            default:
+                printf("   ❌Khong xac dinh duoc lenh, vui long thu lai.\n");
+                // không bao giờ xảy ra vì vòng do while ở trên không cho phép nhập sai
+                break;
+        }
+    } else {
+        printf("   ❌Ban khong co quyen truy cap quan ly.\n");
+    }
+}
+

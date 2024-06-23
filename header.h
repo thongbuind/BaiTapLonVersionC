@@ -30,7 +30,9 @@ void them(char[], int, int, int*, product[], int*, int*, manage[], int*, char, i
 void tinh_nang_tra_cuu (product[], int*);
 
 // Khai báo các hàm của Thiên
-
+int tinh_toan(char[][100], int[], int, int, product[]);
+void tinh_nang_tinh_toan (product[], manage[], int*, int*, int*, int*, char[]);
+void tinh_nang_quan_ly(product[], int, manage[], int*, int*, int*, int*, int*, int*, char[][100]);
 
 
 
