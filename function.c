@@ -1,5 +1,30 @@
 #include "header.h"
-void tinh_nang_them (product p[], manage m[], int* index_manage, int* number_in, int* money_out, int* count, char name_staff_tmp[]) {
+
+void menu_main() {
+    printf("~~~~~~~ HE THONG QUAN LY XUAT NHAP KHO ~~~~~~~\n");
+    printf("1. Tra cuu                 4. Nhap kho\n");
+    printf("2. Them moi                5. Tinh toan\n");
+    printf("3. Xuat kho                6. Quan ly\n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+}
+
+void menu_0() {
+    printf("~~~~~~~ HE THONG QUAN LY XUAT NHAP KHO ~~~~~~~\n");
+    printf("      1. Dang nhap                2. Thoat\n");
+    printf("               3. Tro ly ao ニダイ\n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+}
+
+void menu_6(int total_money) {
+    printf("~~~~~~~~~~~~~~~~~~ QUAN LY ~~~~~~~~~~~~~~~~~~~\n");
+    printf("       Tong tien: %d VND\n", total_money);
+    printf("1. Tien ra vao               3. Lich su xuat kho\n");
+    printf("2. Nhan vien                 4. Lich su nhap kho\n");
+    printf("5. Sap xep danh sach\n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+}
+
+void tinh_nang_them (struct product p[], struct manage m[], int* index_manage, int* number_in, int* money_out, int* count, char name_staff_tmp[]) {
     char name_add[100];
     int quantity_add;
     int price;
@@ -54,7 +79,7 @@ void tinh_nang_them (product p[], manage m[], int* index_manage, int* number_in,
     }
 }
 
-void tra_cuu_danh_sach(int count, product p[]) {
+void tra_cuu_danh_sach(int count, struct product p[]) {
     printf("      Tong mat hang: %d\n", count);
     printf("  |STT|    TEN MAT HANG    |SO LUONG|GIA TIEN|\n");
     for (int i = 0; i < count; i++) {
@@ -62,7 +87,7 @@ void tra_cuu_danh_sach(int count, product p[]) {
     }
 }
 
-void tra_cuu_vi_tri (char name[], int count, product p[], char* y, int* x, int* check) {
+void tra_cuu_vi_tri (char name[], int count, struct product p[], char* y, int* x, int* check) {
     for (int i=0; i<count; i++) {
         if (strcmp(name, p[i].name) == 0) {
             if (p[i].price<100000) {
@@ -87,21 +112,20 @@ void tra_cuu_vi_tri (char name[], int count, product p[], char* y, int* x, int* 
         }
     }
 }
-void them (char name[], int quantity_add, int price, int* count, product p[], int* check, int* money_out, manage m[], int* index_manage, char name_staff_tmp[], int* number_in) {
-    //p[count] = {name, quantity_add, price};
+void them (char name[], int quantity_add, int price, int* count, struct product p[], int* check, int* money_out, struct manage m[], int* index_manage, char name_staff_tmp[], int* number_in) {
     strcpy(p[*count].name, name);
     p[*count].quantity = quantity_add;
     p[*count].price = price;
     *count+=1;
     *money_out += price * quantity_add;
-    //m[index_manage] = {name, quantity_add, name_staff_tmp};
     strcpy(m[*index_manage].name_product, name);
     m[*index_manage].quantity = quantity_add;
     strcpy(m[*index_manage].name_staff, name_staff_tmp);
     *index_manage+=1;
     *number_in+=1;
 }
-void tinh_nang_tra_cuu (product p[], int* count) {
+
+void tinh_nang_tra_cuu (struct product p[], int* count) {
     int q;
     // hiển thị menu cho người dùng chọn
     printf("   Ban muon tra cuu gi?\n");
@@ -136,7 +160,7 @@ void tinh_nang_tra_cuu (product p[], int* count) {
     }
 }
 
-int tinh_toan (char name[][100], int quantity[], int index, int count, product p[]) {
+int tinh_toan (char name[][100], int quantity[], int index, int count, struct product p[]) {
     int sum=0;
     for (int i=0; i<index; i++){
         for (int j=0; j<count; j++) {
@@ -147,7 +171,8 @@ int tinh_toan (char name[][100], int quantity[], int index, int count, product p
     }
     return sum;
 }
-void tinh_nang_tinh_toan (product p[], manage m[], int* index_manage, int* money_in, int* number_out, int* count, char name_staff_tmp[100]) {
+
+void tinh_nang_tinh_toan (struct product p[], struct manage m[], int* index_manage, int* money_in, int* number_out, int* count, char name_staff_tmp[100]) {
     int index;
     int checkcheck;
     char q[100];
@@ -210,7 +235,7 @@ void tinh_nang_tinh_toan (product p[], manage m[], int* index_manage, int* money
     } while (ynq==3);
 }
 
-void tinh_nang_quan_ly(product p[], int count, manage m[], int *total_money, int *money_in, int *money_out, int *number_in, int *number_out, int *index_staff, char staff[][100]) {
+void tinh_nang_quan_ly(struct product p[], int count, struct manage m[], int *total_money, int *money_in, int *money_out, int *number_in, int *number_out, int *index_staff, char staff[][100]) {
     // check xem nhân viên có được cấp quyền truy cập tính năng không
     if (strcmp(staff[*index_staff - 1], "quanly") == 0) {
         int option_6;
@@ -345,3 +370,12 @@ void tinh_nang_quan_ly(product p[], int count, manage m[], int *total_money, int
     }
 }
 
+void yesno_question(char q[], int* ynq) {
+    if (strcmp(q, "yes") == 0 || strcmp(q, "y") == 0 || strcmp(q, "co") == 0 || strcmp(q, "yesss") == 0 || strcmp(q, "ye") == 0 || strcmp(q, "yess") == 0 || strcmp(q, "1") == 0 || strcmp(q, "coo") == 0 || strcmp(q, "cooo") == 0 || strcmp(q, "coooo") == 0 || strcmp(q, "yessss") == 0) {
+        *ynq = 1;
+    } else if (strcmp(q, "no") == 0 || strcmp(q, "n") == 0 || strcmp(q, "khong") == 0 || strcmp(q, "noo") == 0 || strcmp(q, "nooo") == 0 || strcmp(q, "khongg") == 0 || strcmp(q, "0") == 0 || strcmp(q, "khonggg") == 0) {
+        *ynq = 0;
+    } else {
+        *ynq = 3;
+    }
+}
