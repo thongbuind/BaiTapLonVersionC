@@ -24,6 +24,67 @@ void menu_6(int total_money) {
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 }
 
+void them (char name[], int quantity_add, int price, int* count, struct product p[], int* check, int* money_out, struct manage m[], int* index_manage, char name_staff_tmp[], int* number_in) {
+    strcpy(p[*count].name, name);
+    p[*count].quantity = quantity_add;
+    p[*count].price = price;
+    *count+=1;
+    *money_out += price * quantity_add;
+    strcpy(m[*index_manage].name_product, name);
+    m[*index_manage].quantity = quantity_add;
+    strcpy(m[*index_manage].name_staff, name_staff_tmp);
+    *index_manage+=1;
+    *number_in+=1;
+}
+
+int tinh_toan (char name[][100], int quantity[], int index, int count, struct product p[]) {
+    int sum=0;
+    for (int i=0; i<index; i++){
+        for (int j=0; j<count; j++) {
+            if (strcmp(name[i], p[j].name) == 0) {
+                sum += p[j].price * quantity[i];
+            }
+        }
+    }
+    return sum;
+}
+
+void xuat_kho (char name[], int quantity_out, int count, product p[], int* check, int* money_in, manage m[], int* index_manage, char name_staff_tmp[], int* number_out) {
+    for (int i=0; i<count; i++) {
+        if (strcmp(name, p[i].name) == 0) {
+            if (p[i].quantity >= quantity_out) {
+                p[i].quantity = p[i].quantity - quantity_out;
+                *money_in += p[i].price * quantity_out;
+                *check=1;
+                //m[index_manage] = {name, -quantity_out, name_staff_tmp};
+                strcpy(m[*index_manage].name_product, name);
+                m[*index_manage].quantity = -quantity_out;
+                strcpy(m[*index_manage].name_staff, name_staff_tmp);
+                *index_manage+=1;
+                *number_out+=1;
+            } else {
+                *check=3;
+            }
+        }
+    }
+}
+
+void nhap_kho (char name[], int quantity_in, int count, product p[], int* check, int* money_out, manage m[], int* index_manage, char name_staff_tmp[], int* number_in) {
+    for (int i=0; i<count; i++) {
+        if (strcmp(name, p[i].name) == 0) {
+            p[i].quantity = p[i].quantity + quantity_in;
+            *money_out += p[i].price * quantity_in;
+            *check=1;
+            //m[index_manage] = {name, quantity_in, name_staff_tmp};
+            strcpy(m[*index_manage].name_product, name);
+            m[*index_manage].quantity = quantity_in;
+            strcpy(m[*index_manage].name_staff, name_staff_tmp);
+            *index_manage+=1;
+            *number_in+=1;
+        }
+    }
+}
+
 void tinh_nang_them (struct product p[], struct manage m[], int* index_manage, int* number_in, int* money_out, int* count, char name_staff_tmp[]) {
     char name_add[100];
     int quantity_add;
@@ -112,18 +173,6 @@ void tra_cuu_vi_tri (char name[], int count, struct product p[], char* y, int* x
         }
     }
 }
-void them (char name[], int quantity_add, int price, int* count, struct product p[], int* check, int* money_out, struct manage m[], int* index_manage, char name_staff_tmp[], int* number_in) {
-    strcpy(p[*count].name, name);
-    p[*count].quantity = quantity_add;
-    p[*count].price = price;
-    *count+=1;
-    *money_out += price * quantity_add;
-    strcpy(m[*index_manage].name_product, name);
-    m[*index_manage].quantity = quantity_add;
-    strcpy(m[*index_manage].name_staff, name_staff_tmp);
-    *index_manage+=1;
-    *number_in+=1;
-}
 
 void tinh_nang_tra_cuu (struct product p[], int* count) {
     int q;
@@ -158,18 +207,6 @@ void tinh_nang_tra_cuu (struct product p[], int* count) {
             printf("   ❌Khong nhan dien duoc san pham\n");
         }
     }
-}
-
-int tinh_toan (char name[][100], int quantity[], int index, int count, struct product p[]) {
-    int sum=0;
-    for (int i=0; i<index; i++){
-        for (int j=0; j<count; j++) {
-            if (strcmp(name[i], p[j].name) == 0) {
-                sum += p[j].price * quantity[i];
-            }
-        }
-    }
-    return sum;
 }
 
 void tinh_nang_tinh_toan (struct product p[], struct manage m[], int* index_manage, int* money_in, int* number_out, int* count, char name_staff_tmp[100]) {
@@ -377,42 +414,6 @@ void yesno_question(char q[], int* ynq) {
         *ynq = 0;
     } else {
         *ynq = 3;
-    }
-}
-
-void xuat_kho (char name[], int quantity_out, int count, product p[], int* check, int* money_in, manage m[], int* index_manage, char name_staff_tmp[], int* number_out) {
-    for (int i=0; i<count; i++) {
-        if (strcmp(name, p[i].name) == 0) {
-            if (p[i].quantity >= quantity_out) {
-                p[i].quantity = p[i].quantity - quantity_out;
-                *money_in += p[i].price * quantity_out;
-                *check=1;
-                //m[index_manage] = {name, -quantity_out, name_staff_tmp};
-                strcpy(m[*index_manage].name_product, name);
-                m[*index_manage].quantity = -quantity_out;
-                strcpy(m[*index_manage].name_staff, name_staff_tmp);
-                *index_manage+=1;
-                *number_out+=1;
-            } else {
-                *check=3;
-            }
-        }
-    }
-}
-
-void nhap_kho (char name[], int quantity_in, int count, product p[], int* check, int* money_out, manage m[], int* index_manage, char name_staff_tmp[], int* number_in) {
-    for (int i=0; i<count; i++) {
-        if (strcmp(name, p[i].name) == 0) {
-            p[i].quantity = p[i].quantity + quantity_in;
-            *money_out += p[i].price * quantity_in;
-            *check=1;
-            //m[index_manage] = {name, quantity_in, name_staff_tmp};
-            strcpy(m[*index_manage].name_product, name);
-            m[*index_manage].quantity = quantity_in;
-            strcpy(m[*index_manage].name_staff, name_staff_tmp);
-            *index_manage+=1;
-            *number_in+=1;
-        }
     }
 }
 
