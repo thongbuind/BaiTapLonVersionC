@@ -22,7 +22,10 @@ void menu_main();
 void menu_6(int);
 void yesno_question(char[], int*);
 // Khai báo các hàm của Thành
-
+void xuat_kho(char[], int, int, product[], int*, int*, manage[], int*, char, int*);
+void nhap_kho(char[], int, int, product[], int*, int*, manage[], int*, char, int*);
+void tinh_nang_xuat_kho (product[], manage[], int*, int*, int*, int*, char[]);
+void tinh_nang_nhap_kho (product[], manage[], int*, int*, int*, int*, char[]);
 // Khai báo các hàm của Long
 void tra_cuu_danh_sach(int, struct product[]);
 void tra_cuu_vi_tri(char[], int, struct product[], char*, int*, int*);

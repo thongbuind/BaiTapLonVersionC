@@ -379,3 +379,109 @@ void yesno_question(char q[], int* ynq) {
         *ynq = 3;
     }
 }
+
+void xuat_kho (char name[], int quantity_out, int count, product p[], int* check, int* money_in, manage m[], int* index_manage, char name_staff_tmp[], int* number_out) {
+    for (int i=0; i<count; i++) {
+        if (strcmp(name, p[i].name) == 0) {
+            if (p[i].quantity >= quantity_out) {
+                p[i].quantity = p[i].quantity - quantity_out;
+                *money_in += p[i].price * quantity_out;
+                *check=1;
+                //m[index_manage] = {name, -quantity_out, name_staff_tmp};
+                strcpy(m[*index_manage].name_product, name);
+                m[*index_manage].quantity = -quantity_out;
+                strcpy(m[*index_manage].name_staff, name_staff_tmp);
+                *index_manage+=1;
+                *number_out+=1;
+            } else {
+                *check=3;
+            }
+        }
+    }
+}
+
+void nhap_kho (char name[], int quantity_in, int count, product p[], int* check, int* money_out, manage m[], int* index_manage, char name_staff_tmp[], int* number_in) {
+    for (int i=0; i<count; i++) {
+        if (strcmp(name, p[i].name) == 0) {
+            p[i].quantity = p[i].quantity + quantity_in;
+            *money_out += p[i].price * quantity_in;
+            *check=1;
+            //m[index_manage] = {name, quantity_in, name_staff_tmp};
+            strcpy(m[*index_manage].name_product, name);
+            m[*index_manage].quantity = quantity_in;
+            strcpy(m[*index_manage].name_staff, name_staff_tmp);
+            *index_manage+=1;
+            *number_in+=1;
+        }
+    }
+}
+
+void tinh_nang_xuat_kho(product p[], manage m[], int* index_manage, int* money_in, int* number_out, int* count, char name_staff_tmp[100]) {
+    char name_out[100];
+    int quantity_out;
+    int check = 0;
+    printf("   Nhap ten mat hang xuat kho: ");
+    fgets(name_out, sizeof(name_out), stdin);
+    name_out[strcspn(name_out, "\n")] = '\0';
+    // Vòng do-while để nhập số lượng
+    do {
+        printf("   Nhap so luong: ");
+        scanf("%d", &quantity_out);
+        getchar();
+    } while (quantity_out <= 0);
+    // Dùng hàm xuất kho
+    xuat_kho(name_out, quantity_out, *count, p, &check, money_in, m, index_manage, name_staff_tmp, number_out);
+    if (check == 1) {
+        printf("   ✅Xuat kho thanh cong.\n");
+    } else if (check == 0) {
+        printf("   ❌Khong ton tai hang hoa trong kho.\n");
+    } else if (check == 3) {
+        printf("   ❌Khong du so luong.\n");
+    }
+}
+
+void tinh_nang_nhap_kho(product p[], manage m[], int* index_manage, int* money_out, int* number_in, int* count, char name_staff_tmp[]) {
+    char name_in[100];
+    int quantity_in;
+    int check = 0;
+    int price;
+    printf("   Nhap ten mat hang nhap kho: ");
+    fgets(name_in, sizeof(name_in), stdin);
+    name_in[strcspn(name_in, "\n")] = '\0';
+    // Dùng vòng do-while để nhập số lượng hợp lệ
+    do {
+        printf("   Nhap so luong: ");
+        scanf("%d", &quantity_in);
+        getchar();
+    } while (quantity_in <= 0);
+    nhap_kho(name_in, quantity_in, *count, p, &check, money_out, m, index_manage, name_staff_tmp, number_in);
+    // Kiểm tra nhập kho thành công hay không
+    if (check == 1) {
+        printf("   ✅Nhap kho thanh cong.\n");
+    } else {
+        // Nếu không thành công thì tức là do sản phẩm chưa có sẵn trong kho, hỏi xem có muốn nhập kho hay không
+        char q[10];
+        int ynq;
+        do {
+            printf("   San pham nay chua co san trong kho, ban co muon them khong(yes/no): ");
+            scanf("%s", q);
+            getchar();
+            yesno_question(q, &ynq);
+            if (ynq == 1) {
+                // Dùng vòng do-while để nhập giá
+                do {
+                    printf("   Nhap gia san pham: ");
+                    scanf("%d", &price);
+                    getchar();
+                } while (price <= 0);
+                them(name_in, quantity_in, price, count, p, &check, money_out, m, index_manage, name_staff_tmp, number_in);
+                printf("   ✅Them san pham thanh cong.\n");
+            } else if (ynq == 2) {
+                printf("   ❌San pham khong duoc them vao kho.\n");
+            } else {
+                printf("   ❌Khong xac dinh duoc lenh.\n");
+            }
+        } while (ynq != 0 && ynq != 1);
+    }
+}
+
