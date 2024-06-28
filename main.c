@@ -648,7 +648,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
     // tương tự trên nhưng giao tiếp 1 cách thoải mái hơn
     char oders[100];
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-    printf("%50s\n", "🤖ニダイ");
+    printf("%50s\n", "🤖Nidai");
     printf("Xin chao, toi la ニダイ assistant, rat han hanh\n");
     printf("duoc lam quen. Toi co the giup ban trong cong\n");
     printf("viec xuat nhap kho.\n");
@@ -660,7 +660,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
         check_oders(oders);
         switch (check_oders(oders)) {
             case 0:
-                printf("%50s\n", "🤖ニダイ");
+                printf("%50s\n", "🤖Nidai");
                 printf("%46s\n", "Toi chua hieu y ban cho lam");
                 printf("%46s\n", "Ban co the noi ro hon khong?");
                 break;
@@ -668,7 +668,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                 // tra cứu
                 char q[100];
                 char q_regex[100];
-                printf("%50s\n", "🤖ニダイ");
+                printf("%50s\n", "🤖Nidai");
                 printf("%46s\n", "Toi co the giup ban:");
                 printf("%46s\n", "Tra cuu danh sach");
                 printf("%46s\n", "Tra cuu vi tri");
@@ -687,7 +687,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                         char y;
                         int x;
                         int check = 0;
-                        printf("%50s\n", "🤖ニダイ");
+                        printf("%50s\n", "🤖Nidai");
                         printf("%46s\n", "Ban muon tra cuu vi tri");
                         printf("%46s\n", "cua san pham nao?");
                         printf("You: ");
@@ -696,12 +696,12 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                         check_regex(name, name_regex);
                         tra_cuu_vi_tri(name_regex, *count, p, &y, &x, &check);
                         if (check==1) {
-                            printf("%50s\n", "🤖ニダイ");
+                            printf("%50s\n", "🤖Nidai");
                             printf("%44s%d%d\n", "San pham o vi tri: ", y, x);
                             strcpy(q, "ok, cam on");
                             // nếu rảnh sẽ nâng cấp
                         } else {
-                            printf("%50s\n", "🤖ニダイ");
+                            printf("%50s\n", "🤖Nidai");
                             printf("%46s\n", "San pham nay khong ton tai");
                             printf("%46s\n", "trong kho, ban hay kiem");
                             printf("%46s\n", "tra lai danh sach kho");
@@ -710,7 +710,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                             // nếu rảnh sẽ nâng cấp
                         }
                     } else {
-                        printf("%50s\n", "🤖ニダイ");
+                        printf("%50s\n", "🤖Nidai");
                         printf("%46s\n", "Toi chua hieu y ban.");
                     }
                 } while (strcmp(q, "ok, cam on") != 0);
@@ -723,7 +723,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                 int price;
                 int check_name = 0;
                 int check_them_kho = 1;
-                printf("%50s\n", "🤖ニダイ");
+                printf("%50s\n", "🤖Nidai");
                 printf("%46s\n", "Ten san pham ban muon");
                 printf("%46s\n", "them moi vao kho la gi?");
                 do {
@@ -735,7 +735,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                         if (strcmp(name, p[i].name) == 0) {
                             check_name = 0;
                             char q[100];
-                            printf("%50s\n", "🤖ニダイ");
+                            printf("%50s\n", "🤖Nidai");
                             printf("%46s\n", "San pham nay da co trong kho,");
                             printf("%46s\n", "ban co muon nhap kho khong?");
                             do {
@@ -749,7 +749,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                                     check_them_kho = 0;
                                     check_name = 1;
                                 } else {
-                                    printf("%50s\n", "🤖ニダイ");
+                                    printf("%50s\n", "🤖Nidai");
                                     printf("%46s\n", "Toi chua hieu y ban");
                                 }
                             } while (check_them_kho != 1 && check_them_kho != 0);
@@ -757,40 +757,40 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                     }
                 } while (check_name == 0);
                 if (check_them_kho == 1) {
-                    printf("%50s\n", "🤖ニダイ");
+                    printf("%50s\n", "🤖Nidai");
                     printf("%46s\n", "So luong la bao nhieu?");
                     do {
                         printf("You: ");
                         scanf("%d", &quantity);
                         getchar();
                         if (quantity <= 0) {
-                            printf("%50s\n", "🤖ニダイ");
+                            printf("%50s\n", "🤖Nidai");
                             printf("%46s\n", "So luong san pham phai lon");
                             printf("%46s\n", "hon 0, vui long nhap lai");
                         }
                     } while (quantity <= 0);
-                    printf("%50s\n", "🤖ニダイ");
+                    printf("%50s\n", "🤖Nidai");
                     printf("%46s\n", "San pham nay co");
                     printf("%46s\n", "gia bao nhieu?");
                     do {
                         printf("You: ");
                         scanf("%d", &price);
                         if (price <= 0) {
-                            printf("%50s\n", "🤖ニダイ");
+                            printf("%50s\n", "🤖Nidai");
                             printf("%46s\n", "Gia tien san pham phai lon");
                             printf("%46s\n", "hon 0, vui long nhap lai");
                         }
                     } while (price <= 0);
                     getchar();
                     them(name, quantity, price, count, p, &check_them_kho, money_out, m, index_manage, name_staff_tmp, number_in);
-                    printf("%50s\n", "🤖ニダイ");
+                    printf("%50s\n", "🤖Nidai");
                     printf("%46s\n", "San pham da duoc them vao kho");
                 }
                 break;
             }
             case 3: {
                 // chào
-                printf("%50s\n", "🤖ニダイ");
+                printf("%50s\n", "🤖Nidai");
                 printf("%46s\n", "Chao mot ngay moi tot lanh");
                 printf("%46s\n", "Toi co the giup gi cho ban");
                 break;
@@ -802,7 +802,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                 int quantity;
                 int check_name = 0;
                 int check_quantity = 0;
-                printf("%50s\n", "🤖ニダイ");
+                printf("%50s\n", "🤖Nidai");
                 printf("%46s\n", "Ban muon xuat kho");
                 printf("%46s\n", "san pham nao?");
                 do {
@@ -817,14 +817,14 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                         }
                     }
                     if (check_name == 0) {
-                        printf("%50s\n", "🤖ニダイ");
+                        printf("%50s\n", "🤖Nidai");
                         printf("%46s\n", "San pham nay khong ton tai");
                         printf("%46s\n", "trong kho, ban hay kiem");
                         printf("%46s\n", "tra lai danh sach kho");
                         printf("%46s\n", "hoac loi chinh ta nhe");
                     }
                 } while (check_name == 0);
-                printf("%50s\n", "🤖ニダイ");
+                printf("%50s\n", "🤖Nidai");
                 printf("%46s\n", "So luong xuat kho");
                 printf("%46s\n", "la bao nhieu?");
                 do {
@@ -833,7 +833,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                         scanf("%d", &quantity);
                         getchar();
                         if (quantity <= 0) {
-                            printf("%50s\n", "🤖ニダイ");
+                            printf("%50s\n", "🤖Nidai");
                             printf("%46s\n", "So luong san pham phai lon");
                             printf("%46s\n", "hon 0, vui long nhap lai");
                         }
@@ -841,7 +841,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                     for (int i=0; i<*count; i++) {
                         if (strcmp(name_regex, p[i].name) == 0) {
                             if (quantity > p[i].quantity) {
-                                printf("%50s\n", "🤖ニダイ");
+                                printf("%50s\n", "🤖Nidai");
                                 printf("%46s\n", "So luong ban yeu cau lon hon");
                                 printf("%46s\n", "so san pham dang co trong");
                                 printf("%46s\n", "kho, vui long nhap lai");
@@ -852,7 +852,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                     }
                 } while (check_quantity == 0);
                 xuat_kho(name_regex, quantity, *count, p, &check_name, money_in, m, index_manage, name_staff_tmp, number_out);
-                printf("%50s\n", "🤖ニダイ");
+                printf("%50s\n", "🤖Nidai");
                 printf("%46s\n", "Xuat kho thanh cong");
                 getchar();
                 break;
@@ -863,7 +863,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                 char name_regex[100];
                 int quantity = 0;
                 int check_name = 0;
-                printf("%50s\n", "🤖ニダイ");
+                printf("%50s\n", "🤖Nidai");
                 printf("%46s\n", "Ban muon nhap kho");
                 printf("%46s\n", "san pham nao?");
                 printf("You: ");
@@ -873,14 +873,14 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                 for (int i=0; i<*count; i++) {
                     if (strcmp(name_regex, p[i].name) == 0) {
                         check_name = 1;
-                        printf("%50s\n", "🤖ニダイ");
+                        printf("%50s\n", "🤖Nidai");
                         printf("%46s\n", "So luong la bao nhieu?");
                         do {
                             printf("You: ");
                             scanf("%d", &quantity);
                             getchar();
                             if (quantity <= 0) {
-                                printf("%50s\n", "🤖ニダイ");
+                                printf("%50s\n", "🤖Nidai");
                                 printf("%46s\n", "So luong san pham phai lon");
                                 printf("%46s\n", "hon 0, vui long nhap lai");
                             }
@@ -895,7 +895,7 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                     char q[100];
                     int quantity = 0;
                     int price;
-                    printf("%50s\n", "🤖ニダイ");
+                    printf("%50s\n", "🤖Nidai");
                     printf("%46s\n", "San pham nay chua co trong");
                     printf("%46s\n", "kho, ban co muon them moi");
                     printf("%46s\n", "san pham vao kho khong?");
@@ -904,34 +904,34 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                         fgets(q, sizeof(q), stdin);
                         q[strcspn(q, "\n")] = '\0';
                         if (check_yes_no(q) == 1) {
-                            printf("%50s\n", "🤖ニダイ");
+                            printf("%50s\n", "🤖Nidai");
                             printf("%46s\n", "San pham nay gia bao nhieu");
                             do {
                                 printf("You: ");
                                 scanf("%d", &price);
                                 getchar();
                                 if (price <= 0) {
-                                    printf("%50s\n", "🤖ニダイ");
+                                    printf("%50s\n", "🤖Nidai");
                                     printf("%46s\n", "Gia tien san pham phai lon");
                                     printf("%46s\n", "hon 0, vui long nhap lai");
                                 }
                             } while (price <= 0);
                             getchar();
-                            printf("%50s\n", "🤖ニダイ");
+                            printf("%50s\n", "🤖Nidai");
                             printf("%46s\n", "So luong la bao nhieu?");
                             do {
                                 printf("You: ");
                                 scanf("%d", &quantity);
                                 getchar();
                                 if (quantity <= 0) {
-                                    printf("%50s\n", "🤖ニダイ");
+                                    printf("%50s\n", "🤖Nidai");
                                     printf("%46s\n", "So luong san pham phai lon");
                                     printf("%46s\n", "hon 0, vui long nhap lai");
                                 }
                             } while (quantity <= 0);
                             getchar();
                             them(name_regex, quantity, price, count, p, &check_name, money_out, m, index_manage, name_staff_tmp, number_in);
-                            printf("%50s\n", "🤖ニダイ");
+                            printf("%50s\n", "🤖Nidai");
                             printf("%46s\n", "Them moi thanh cong");
                         } else if (check_yes_no(q) == 0) {
                             break;
@@ -944,14 +944,14 @@ void nidai_assistant (struct product p[], int* count, int* money_out, int* money
                 // tinh toan
                 char q[100];
                 int input;
-                printf("%50s\n", "🤖ニダイ");
+                printf("%50s\n", "🤖Nidai");
                 printf("%46s\n", "Ban can tinh tien bao");
                 printf("%46s\n", "nhieu loai san pham?");
                 do {
                     printf("You: ");
                     scanf("%d", &input);
                     if (scanf("%d", &input) != 1 || input <= 0) {
-                        printf("%50s\n", "🤖ニダイ");
+                        printf("%50s\n", "🤖Nidai");
                         printf("%46s\n", "So san pham phai lon hon 0");
                         while (getchar() != '\n');
                     }
